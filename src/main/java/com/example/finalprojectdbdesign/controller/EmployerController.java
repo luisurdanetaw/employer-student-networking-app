@@ -17,6 +17,11 @@ public class EmployerController {
         this.employerService = employerService;
     }
 
+    @GetMapping("/getAllEmployers")
+    public List<Employer> getAllEmployers(){
+        return employerService.getAllEmployers();
+    }
+
     @GetMapping("/search")
     public List<Employer> searchEmployer(@RequestParam String name){
        return employerService.searchEmployer(name);
