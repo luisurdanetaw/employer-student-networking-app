@@ -3,10 +3,12 @@ package com.example.finalprojectdbdesign.controller;
 import com.example.finalprojectdbdesign.model.Student;
 import com.example.finalprojectdbdesign.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +28,7 @@ public class StudentController {
         List<Student> list = studentService.searchStudent(name);
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
-        catch(IllegalStateException e){
+        catch(EmptyResultDataAccessException e){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
@@ -37,7 +39,7 @@ public class StudentController {
             Student student = studentService.getStudentPage(username);
             return new ResponseEntity<>(student, HttpStatus.OK);
         }
-        catch(IllegalStateException e){
+        catch(EmptyResultDataAccessException e){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
