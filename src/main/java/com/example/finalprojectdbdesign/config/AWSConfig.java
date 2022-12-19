@@ -21,7 +21,7 @@ public class AWSConfig {
 
     private final BasicAWSCredentials awsCredentials = new BasicAWSCredentials(
             "****************",
-            "***************************"
+            "****************************"
     );
 
     @Bean
