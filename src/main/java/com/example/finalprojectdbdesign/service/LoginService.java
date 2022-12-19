@@ -1,6 +1,7 @@
 package com.example.finalprojectdbdesign.service;
 
 import com.example.finalprojectdbdesign.model.Employer;
+import com.example.finalprojectdbdesign.repository.StudentDaoImpl;
 import com.example.finalprojectdbdesign.requests.LoginRequest;
 import com.example.finalprojectdbdesign.model.Student;
 import com.example.finalprojectdbdesign.repository.FakeDB;
@@ -12,18 +13,21 @@ import java.util.Objects;
 @Service
 public class LoginService {
     private final FakeDB testDB;
+    private final StudentDaoImpl studentDao;
+
     @Autowired
-    public LoginService(FakeDB testDB){
+    public LoginService(FakeDB testDB, StudentDaoImpl studentDao){
         this.testDB = testDB;
+        this.studentDao = studentDao;
     }
 
     public String loginStudent(LoginRequest request) {
-        Student s = testDB.findStudentByEmail(request.getEmail());
+        Student s = studentDao.findStudentByEmail(request.getEmail());
         if(Objects.isNull(s)){
             return "EMAIL DOES NOT EXIST";
         }
         if(authenticate(s, request.getPassword()))
-            return "SUCCESS";
+            return s.getUsername();
         return "WRONG PASSWORD";
     }
     public String loginEmployer(LoginRequest request) {

@@ -2,6 +2,7 @@ package com.example.finalprojectdbdesign.repository;
 
 import com.example.finalprojectdbdesign.model.Employer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,13 @@ public class EmployerDaoImpl implements EmployerDao {
         );
     }
     public List<Employer> findAllThatMatchName(String name){
-        return null;
+        String nameForQuery = '%' + name + '%';
+        String sql = "SELECT * FROM Employers WHERE LOWER(name) LIKE LOWER(?)";
+
+        return jdbcTemplate.query(sql,
+                new EmployerRowMapper(),
+                nameForQuery
+        );
     }
     public Employer findByUsername(String username){
         String sql = "SELECT * FROM Employers WHERE username = ?";
@@ -49,7 +56,7 @@ public class EmployerDaoImpl implements EmployerDao {
                 email
         );
     }
-    public void insertEmployer(Employer e){
+    public void insertEmployer(Employer e) throws DataIntegrityViolationException {
         String sql = "INSERT INTO Employers (name, username, email, password, industry, location) "
                 + "VALUES (?,?,?,?,?,?)";
         jdbcTemplate.update(

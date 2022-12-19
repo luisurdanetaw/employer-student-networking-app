@@ -3,6 +3,8 @@ package com.example.finalprojectdbdesign.repository;
 import com.example.finalprojectdbdesign.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -43,19 +45,23 @@ public class StudentDaoImpl implements StudentDao{
         );
     }
     public Student findStudentByEmail(String email){
-        String sql = "SELECT * FROM Students WHERE email = ?";
-        return jdbcTemplate.queryForObject(
-                sql,
-                new StudentRowMapper(),
-                email
-        );
+        try {
+            String sql = "SELECT * FROM Students WHERE email = ?";
+            return jdbcTemplate.queryForObject(
+                    sql,
+                    new StudentRowMapper(),
+                    email
+            );
+        }
+        catch(EmptyResultDataAccessException e){
+            return null;
+        }
     }
-    public void insertStudent(Student s){
+    public void insertStudent(Student s) throws DataIntegrityViolationException {
         String sql = "INSERT INTO Students (name, username, email, password, university, major, gpa) "
                 + "VALUES (?,?,?,?,?,?,?)";
         jdbcTemplate.update(
                 sql,
-                new StudentRowMapper(),
                 s.getName(), s.getUsername(), s.getEmail(), s.getPassword(), s.getUniversity(), s.getMajor(), s.getGpa()
         );
     }

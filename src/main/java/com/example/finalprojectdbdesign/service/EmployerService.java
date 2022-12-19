@@ -20,7 +20,10 @@ public class EmployerService {
         this.employerDao = employerDao;
     }
     public List<Employer> searchEmployer(String name) {
-        return testDB.searchEmployerByName(name);
+        if(name.isBlank() || name.isEmpty()){
+            return employerDao.findAll();
+        }
+        else return employerDao.findAllThatMatchName(name);
     }
 
     public Employer getEmployerPage(String username) {

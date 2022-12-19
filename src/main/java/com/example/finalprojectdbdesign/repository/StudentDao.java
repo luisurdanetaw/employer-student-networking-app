@@ -2,6 +2,7 @@ package com.example.finalprojectdbdesign.repository;
 
 import com.example.finalprojectdbdesign.model.Student;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.xml.crypto.Data;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ public interface StudentDao {
     List<Student> findStudentsByName(String name) throws DataAccessException;
     Student findStudentByUsername(String username) throws DataAccessException;
     Student findStudentByEmail(String email);
-    void insertStudent(Student s);
+    void insertStudent(Student s) throws DataIntegrityViolationException;
 
 
 }

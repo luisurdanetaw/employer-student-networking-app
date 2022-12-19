@@ -12,9 +12,6 @@ import java.util.*;
 @Getter
 @Repository
 public class FakeDB {
-    private JobPosting[] jobs = {
-            new JobPosting("usmc@gmail.com", "Explosive Ordnance Disposal", 270000, "CA", "test"),
-            new JobPosting("usmc@gmail.com", "Infantry", 30000, "CA", "test job")};
 
     private Student[] students = {
             new Student("John", "jdawg123", "john@gmail.com", "123", "Westpoint", "Finance", 3.5F)
@@ -29,7 +26,6 @@ public class FakeDB {
 
     private List<Student> fakeStudentTable = new ArrayList<>(Arrays.asList(students));
 
-    private List<JobPosting> fakeJobPostingTable = new ArrayList<>(Arrays.asList(jobs));
 
     public List<Employer> searchEmployerByName(String name){
         if(name == null) return getFakeEmployerTable();
@@ -50,9 +46,6 @@ public class FakeDB {
         throw new IllegalStateException("employer not found");
     }
 
-    public void saveJob(JobPosting job) {
-        fakeJobPostingTable.add(job);
-    }
 
     public void addStudent(Student student) {
         if(!emailValid("STUDENT", student.getEmail())){

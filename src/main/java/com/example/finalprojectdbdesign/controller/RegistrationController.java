@@ -5,15 +5,18 @@ import com.example.finalprojectdbdesign.requests.RegistrationRequest;
 import com.example.finalprojectdbdesign.service.EmployerService;
 import com.example.finalprojectdbdesign.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("api/v1/registration/")
 public class RegistrationController {
 
@@ -32,10 +35,12 @@ public class RegistrationController {
     public ResponseEntity<String> register(@RequestBody RegistrationRequest request){
         try {
             registrationService.register(request);
-        } catch (IllegalStateException e){
-            return new ResponseEntity<>("Email taken", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Registration successful", HttpStatus.OK);
+        } catch (IllegalStateException | DataIntegrityViolationException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>("Registration succesful", HttpStatus.OK);
     }
 
 
