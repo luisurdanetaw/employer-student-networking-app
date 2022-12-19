@@ -20,8 +20,8 @@ import java.nio.charset.StandardCharsets;
 public class AWSConfig {
 
     private final BasicAWSCredentials awsCredentials = new BasicAWSCredentials(
-            "AKIA2JDUHBK5SDBVFGFB",
-            "P4+Us4bddNR7ohv0lQ/4VYkYoe47aPXqrlDqcbhi"
+            "****************",
+            "***************************"
     );
 
     @Bean
