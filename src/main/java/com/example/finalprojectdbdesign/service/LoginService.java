@@ -6,6 +6,7 @@ import com.example.finalprojectdbdesign.requests.LoginRequest;
 import com.example.finalprojectdbdesign.model.Student;
 import com.example.finalprojectdbdesign.repository.FakeDB;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -14,11 +15,13 @@ import java.util.Objects;
 public class LoginService {
     private final FakeDB testDB;
     private final StudentDaoImpl studentDao;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public LoginService(FakeDB testDB, StudentDaoImpl studentDao){
+    public LoginService(FakeDB testDB, StudentDaoImpl studentDao, PasswordEncoder passwordEncoder){
         this.testDB = testDB;
         this.studentDao = studentDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String loginStudent(LoginRequest request) {
@@ -41,9 +44,9 @@ public class LoginService {
     }
 
     private boolean authenticate(Student s, String password) {
-        return s.getPassword().equals(password);
+        return passwordEncoder.matches(password, s.getPassword());
     }
     private boolean authenticate(Employer e, String password) {
-        return e.getPassword().equals(password);
+        return passwordEncoder.matches(password, e.getPassword());
     }
 }

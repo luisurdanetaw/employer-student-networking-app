@@ -1,8 +1,6 @@
 package com.example.finalprojectdbdesign.controller;
 
-import com.example.finalprojectdbdesign.model.Employer;
 import com.example.finalprojectdbdesign.requests.RegistrationRequest;
-import com.example.finalprojectdbdesign.service.EmployerService;
 import com.example.finalprojectdbdesign.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,9 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.SQLException;
-import java.util.List;
 
 
 @RestController
